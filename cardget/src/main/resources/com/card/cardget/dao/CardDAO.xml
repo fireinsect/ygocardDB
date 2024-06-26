@@ -47,11 +47,14 @@
     </resultMap>
     
     <select id="searchById" resultMap="textResultMap">
-        select * from texts where id = #{id} limit 1
+        select * from texts limit #{id},1
     </select>
 
     <select id="searchYgocardById" resultMap="cardResultMap">
         select * from ygo_card where id = #{id} limit 1
+    </select>
+    <select id="searchYgocardByName" resultMap="cardResultMap">
+        select * from ygo_card where name = #{name} limit 1
     </select>
 
     <select id="searchDataByCardId" resultMap="dataResultMap">
@@ -60,6 +63,10 @@
 
     <select id="getSameName" resultType="java.lang.Integer">
         SELECT COUNT(*) FROM ygo_card where name=#{name}
+    </select>
+
+    <select id="getSameCardId" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM ygo_card where card_id=#{cardId}
     </select>
 
     <select id="getcount" resultType="java.lang.Integer">
@@ -93,4 +100,20 @@
     <update id="cardAttributeUpdate" parameterType="com.card.cardget.dataobject.Card">
         update ygo_card set attribute =#{attribute} where card_id=#{cardId}
     </update>
- </mapper>
+    <update id="changeCardId" parameterType="com.card.cardget.dataobject.Card">
+        update ygo_card set card_id=#{cardId_new} where card_id=#{cardId}
+    </update>
+    <update id="updateCard" parameterType="com.card.cardget.dataobject.Card">
+        update ygo_card set
+        name=#{name},
+        effect=#{effect},
+        zz=#{effect},
+        main_type=#{mainType},
+        type=#{type},
+        level=#{level},
+        attribute=#{attribute},
+        atk=#{atk},
+        def=#{def}
+        where card_id=#{cardId}
+    </update>
+</mapper>

@@ -53,13 +53,26 @@ public class CardController {
                                     card.setLevel(CardUtil.getLevel(cardData.getLevel()) + " 星");
                                 }
                             }
-                            cardDAO.insertData(card);
-                            System.out.println("完成" + i + "/" + num);
+                            if (cardDAO.getSameCardId(card.getCardId())>0){
+                                cardDAO.updateCard(card);
+                            }else{
+                                cardDAO.insertData(card);
+                            }
                             re++;
+                        }
+                    }else{
+                        int cardId=cardDAO.searchYgocardByName(cardText.getName()).getCardId();
+                        int cardId_new=cardText.getCardId();
+                        if (cardId>cardId_new){
+                            cardDAO.changeCardId(cardId_new,cardId);
                         }
                     }
                 }
+            if (i%500==0){
+                System.out.println("完成" + (i+1) + "/" + num);
+            }
         }
+        System.out.println("全部完成");
         return re;
     }
 
@@ -69,7 +82,7 @@ public class CardController {
     public int cardstartFront(){
         int re=0;
         int num=cardDAO.getcount();
-        for (int i=1;i<num;i++) {
+        for (int i=0;i<num;i++) {
             Card card = new Card();
             CardText cardText = cardDAO.searchById(i);
             if (cardText != null) {
@@ -101,9 +114,12 @@ public class CardController {
                         System.out.println("完成" + i + "/" + num);
                         re++;
                     }
+                }else{
+                    System.out.println(cardText.getName());
                 }
             }
         }
+        System.out.println("全部完成");
         return re;
     }
 
