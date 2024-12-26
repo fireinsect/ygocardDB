@@ -107,7 +107,7 @@
         update ygo_card set
         name=#{name},
         effect=#{effect},
-        zz=#{effect},
+        zz=#{zz},
         main_type=#{mainType},
         type=#{type},
         level=#{level},
